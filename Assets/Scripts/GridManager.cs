@@ -90,26 +90,27 @@ public class GridManager : MonoBehaviour
 
             if (m_PreviousPath != null)
             {
-                foreach (var node in m_PreviousPath)
-                {
-                    if (node.State != SquareState.Selected)
-                    {
-                        node.SetColor(SquareState.Empty);
-                        node.State = SquareState.Empty;
-                    }
-                }
+                ClearOldPath();
             }
 
             foreach (var node in path)
             {
-                if (node.State != SquareState.Selected)
-                {
-                    node.SetColor(SquareState.Path);
-                    node.State = SquareState.Path;
-                }
+                if (node.State == SquareState.Selected) continue;
+                node.SetColor(SquareState.Path);
+                node.State = SquareState.Path;
             }
 
             m_PreviousPath = path;
+        }
+    }
+
+    private void ClearOldPath()
+    {
+        foreach (var node in m_PreviousPath)
+        {
+            if (node.State == SquareState.Selected) continue;
+            node.SetColor(SquareState.Empty);
+            node.State = SquareState.Empty;
         }
     }
 }
