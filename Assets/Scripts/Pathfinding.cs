@@ -11,12 +11,15 @@ public static class Pathfinding
         var cameFrom = new Dictionary<T, T>();
 
         T current;
-        
+        bool found = false;
         while (frontier.Count != 0)
         {
             current = frontier.Dequeue();
             if (Equals(current, goal))
-                break;
+            {
+                found = true;
+                break;   
+            }
             foreach (T next in current.GetNeighbours())
             {
                 if(cameFrom.ContainsKey(next))
@@ -27,6 +30,8 @@ public static class Pathfinding
         }
         
         var path = new List<T>();
+        if (!found)
+            return Array.Empty<T>();
         current = goal;
         while (!Equals(current, start))
         {
